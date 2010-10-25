@@ -1,0 +1,9 @@
+Main-Class: org.loom.scaffold.Main
+Class-Path: lib/scala-library.jar lib/RXTXcomm.jar
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+<sketch>
+  <name>JoshMorgan</name>
+  <width>1200</width>
+  <height>800</height>
+  <animating>true</animating>
+  <fullscreen>true</fullscreen>
+  <borderColor>0,0,0</borderColor>
+  <serial>true</serial>
+  <port>/dev/ttyUSB0</port>
+  <mode>bytes</mode>
+  <quantity>4</quantity>
+</sketch>
