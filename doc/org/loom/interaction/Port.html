@@ -665,29 +665,6 @@ possible to check whether the contents of the list are of the requested typed.
       </span>
       </h4>
       
-    </li><li visbl="pub" data-isabs="false" name="org.loom.interaction.Port#processASCII">
-      <a id="processASCII(Array[Byte]):Unit"></a>
-      <h4 class="signature">
-      <span class="kind">def</span>
-      <span class="symbol">
-        <span class="name">processASCII</span>
-        
-        <span class="params">(<span name="chunkArray">chunkArray: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span>
-        <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4>
-      
-            <p class="shortcomment cmt">    processASCII - for processing RFID
-    captures an RFID code string and passes to interaction manager
-</p>
-            <div class="fullcomment"><div class="comment cmt"><p>    processASCII - for processing RFID
-    captures an RFID code string and passes to interaction manager
-</p></div>
-            
-            
-            
-          </div>
-          
     </li><li visbl="pub" data-isabs="false" name="org.loom.interaction.Port#processBytes">
       <a id="processBytes(Array[Byte]):Unit"></a>
       <h4 class="signature">
@@ -712,6 +689,52 @@ possible to check whether the contents of the list are of the requested typed.
     in the first position in the array.  We check that both the length of the array is
     correct (in this example, 4) and that the first byte is equal to -5, if so then
     collect the data, pass to the interaction manager and then on to the Sketch
+</p></div>
+            
+            
+            
+          </div>
+          
+    </li><li visbl="pub" data-isabs="false" name="org.loom.interaction.Port#processChar">
+      <a id="processChar(Array[Byte]):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol">
+        <span class="name">processChar</span>
+        
+        <span class="params">(<span name="chunkArray">chunkArray: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span>
+        <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
+            <p class="shortcomment cmt">    processASCII - for processing button
+    captures an button code string and passes to interaction manager
+</p>
+            <div class="fullcomment"><div class="comment cmt"><p>    processASCII - for processing button
+    captures an button code string and passes to interaction manager
+</p></div>
+            
+            
+            
+          </div>
+          
+    </li><li visbl="pub" data-isabs="false" name="org.loom.interaction.Port#processRFID">
+      <a id="processRFID(Array[Byte]):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol">
+        <span class="name">processRFID</span>
+        
+        <span class="params">(<span name="chunkArray">chunkArray: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span>
+        <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
+            <p class="shortcomment cmt">    processASCII - for processing RFID
+    captures an RFID code string and passes to interaction manager
+</p>
+            <div class="fullcomment"><div class="comment cmt"><p>    processASCII - for processing RFID
+    captures an RFID code string and passes to interaction manager
 </p></div>
             
             

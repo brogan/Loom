@@ -19,7 +19,7 @@ import java.awt.{Graphics2D,BasicStroke}
 import java.awt.geom._
 import java.awt.Polygon
 
-class Sprite2D(val shape: Shape2D, var location: Vector2D, var size: Vector2D, var startRotation: Double, var rotOffset: Vector2D, var animator: Animator2D, var renderer: Renderer) {
+class Sprite2D(val shape: Shape2D, var location: Vector2D, var size: Vector2D, var startRotation: Double, var rotOffset: Vector2D, var animator: Animator2D, var renderer: Renderer) extends Drawable {
 
    var pointWidth: Double = 2
    var pointHeight: Double = 2
@@ -49,6 +49,14 @@ class Sprite2D(val shape: Shape2D, var location: Vector2D, var size: Vector2D, v
    */
    def rotate(angle: Double): Unit = {
       shape.rotate(angle)
+   }
+   /**
+   Rotate the sprite around a parent
+   Not implemented 
+   @param angle angle increment
+   */
+   def rotateAroundParent(rot: Double, parent: Vector2D): Unit = {
+      //shape.rotate(angle)
    }
    /**
    Clone the Sprite2D.  Produces an independent copy.
@@ -97,50 +105,131 @@ class Sprite2D(val shape: Shape2D, var location: Vector2D, var size: Vector2D, v
    def draw(g2D: Graphics2D): Unit = {
 
       renderer.mode match {
-         case Renderer.POINTS => for (poly <- shape.polys) drawPoints(g2D, poly)
-         case Renderer.LINES => for (poly <- shape.polys) drawLines(g2D, poly)
-         case Renderer.FILLED => for (poly <- shape.polys) drawFilled(g2D, poly)
-         case Renderer.FILLED_STROKED => for (poly <- shape.polys) drawFilledStroked(g2D, poly)
+         case Renderer.POINTS => for (poly <- shape.polys) drawPoints(g2D, poly, Camera.view)
+         case Renderer.LINES => for (poly <- shape.polys) drawLines(g2D, poly, Camera.view)
+         case Renderer.FILLED => for (poly <- shape.polys) drawFilled(g2D, poly, Camera.view)
+         case Renderer.FILLED_STROKED => for (poly <- shape.polys) drawFilledStroked(g2D, poly, Camera.view)
       }
 
    }
 
-   def drawPoints(g2D: Graphics2D, pol: Polygon2D): Unit = {
-      g2D.setColor(renderer.strokeColor)
-      g2D.setStroke(new BasicStroke(renderer.strokeWidth))
-      val sX: Int = location.x.toInt
-      val sY: Int = location.y.toInt
-      for(point <- pol.points) {
-         val e: Ellipse2D.Double = new Ellipse2D.Double(point.x.toInt + sX, point.y.toInt + sY, pointWidth,pointHeight)
-         g2D.draw(e)
-      }
+   def drawPoints(g2D: Graphics2D, pol: Polygon2D, view: View): Unit = {
+       g2D.setColor(renderer.strokeColor)
+       g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+       
+       val polyCorrected: Polygon2D = coordinateCorrect(pol, view)
+       
+       val sX: Int = location.x.toInt
+       val sY: Int = location.y.toInt
+       for(point <- polyCorrected.points) {
+          val e: Ellipse2D.Double = new Ellipse2D.Double(point.x.toInt + sX, point.y.toInt + sY, pointWidth,pointHeight)
+          g2D.draw(e)
+       }
    }
 
 
-   def drawLines(g2D: Graphics2D, pol: Polygon2D): Unit = {
-
-      val poly: Polygon = getPolygonFromPolygon2D(pol)
-      g2D.setColor(renderer.strokeColor)
-      g2D.draw(poly)
+   def drawLines(g2D: Graphics2D, pol: Polygon2D, view: View): Unit = {
+      
+      val polyCorrected: Polygon2D = coordinateCorrect(pol, view)
+	   
+      val poly: Polygon = getPolygonFromPolygon2D(polyCorrected)
+      if (pol.polyType == PolygonType.Line_Polygon) {
+           g2D.setColor(renderer.strokeColor)
+           g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+           g2D.draw(poly)
+      } else {
+          //iterate through each of the spline segments in the spline Polygon3d
+          //println("poly sides total: " + poly2D.sidesTotal)
+          val path: GeneralPath = new GeneralPath(Path2D.WIND_EVEN_ODD)
+          path.moveTo(polyCorrected.points(0).x.toFloat, polyCorrected.points(0).y.toFloat)
+          for (i <- 0 until pol.sidesTotal) {
+    	      val c1X: Float = polyCorrected.points(1 + i*4).x.toFloat
+    	      val c1Y: Float = polyCorrected.points(1 + i*4).y.toFloat
+    	      val c2X: Float = polyCorrected.points(2 + i*4).x.toFloat
+    	      val c2Y: Float = polyCorrected.points(2 + i*4).y.toFloat
+    	      val a2X: Float = polyCorrected.points(3 + i*4).x.toFloat
+    	      val a2Y: Float = polyCorrected.points(3 + i*4).y.toFloat
+		      path.curveTo(c1X, c1Y, c2X, c2Y, a2X, a2Y);
+          }
+          g2D.setColor(renderer.strokeColor)
+          g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+          g2D.draw(path)
+       }
 
    }
 
-   def drawFilled(g2D: Graphics2D, pol: Polygon2D): Unit = {
-
-      val poly: Polygon = getPolygonFromPolygon2D(pol)
-      g2D.setColor(renderer.fillColor)
-      g2D.fill(poly)
+   def drawFilled(g2D: Graphics2D, pol: Polygon2D, view: View): Unit = {
+	   
+	  val polyCorrected: Polygon2D = coordinateCorrect(pol, view)
+	   
+      val poly: Polygon = getPolygonFromPolygon2D(polyCorrected)
+      if (pol.polyType == PolygonType.Line_Polygon) {
+           g2D.setColor(renderer.fillColor)
+           g2D.fill(poly)
+      } else {
+          //iterate through each of the spline segments in the spline Polygon3d
+          //println("poly sides total: " + poly2D.sidesTotal)
+          val path: GeneralPath = new GeneralPath(Path2D.WIND_EVEN_ODD)
+          path.moveTo(polyCorrected.points(0).x.toFloat, polyCorrected.points(0).y.toFloat)
+          for (i <- 0 until pol.sidesTotal) {
+    	      val c1X: Float = polyCorrected.points(1 + i*4).x.toFloat
+    	      val c1Y: Float = polyCorrected.points(1 + i*4).y.toFloat
+    	      val c2X: Float = polyCorrected.points(2 + i*4).x.toFloat
+    	      val c2Y: Float = polyCorrected.points(2 + i*4).y.toFloat
+    	      val a2X: Float = polyCorrected.points(3 + i*4).x.toFloat
+    	      val a2Y: Float = polyCorrected.points(3 + i*4).y.toFloat
+		      path.curveTo(c1X, c1Y, c2X, c2Y, a2X, a2Y);
+          }
+          g2D.setColor(renderer.fillColor)
+          g2D.fill(path)
+       }
 
    }
 
-   def drawFilledStroked(g2D: Graphics2D, pol: Polygon2D): Unit = {
+   def drawFilledStroked(g2D: Graphics2D, pol: Polygon2D, view: View): Unit = {
 
-      val poly: Polygon = getPolygonFromPolygon2D(pol)
-      g2D.setColor(renderer.fillColor)
-      g2D.fill(poly)
-      g2D.setColor(renderer.strokeColor)
-      g2D.draw(poly)
+      val polyCorrected: Polygon2D = coordinateCorrect(pol, view)
+	   
+      val poly: Polygon = getPolygonFromPolygon2D(polyCorrected)
+      if (pol.polyType == PolygonType.Line_Polygon) {
+           g2D.setColor(renderer.fillColor)
+           g2D.fill(poly)
+           g2D.setColor(renderer.strokeColor)
+           g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+           g2D.draw(poly)
+      } else {
+          //iterate through each of the spline segments in the spline Polygon3d
+          //println("poly sides total: " + poly2D.sidesTotal)
+          val path: GeneralPath = new GeneralPath(Path2D.WIND_EVEN_ODD)
+          path.moveTo(polyCorrected.points(0).x.toFloat, polyCorrected.points(0).y.toFloat)
+          for (i <- 0 until pol.sidesTotal) {
+    	      val c1X: Float = polyCorrected.points(1 + i*4).x.toFloat
+    	      val c1Y: Float = polyCorrected.points(1 + i*4).y.toFloat
+    	      val c2X: Float = polyCorrected.points(2 + i*4).x.toFloat
+    	      val c2Y: Float = polyCorrected.points(2 + i*4).y.toFloat
+    	      val a2X: Float = polyCorrected.points(3 + i*4).x.toFloat
+    	      val a2Y: Float = polyCorrected.points(3 + i*4).y.toFloat
+		      path.curveTo(c1X, c1Y, c2X, c2Y, a2X, a2Y);
+          }
+          g2D.setColor(renderer.fillColor)
+          g2D.fill(path)
+          g2D.setColor(renderer.strokeColor)
+          g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+          g2D.draw(path)
+       }
 
+   }
+   
+   def coordinateCorrect(pol: Polygon2D, view: View): Polygon2D = {
+	   val ccPoints: Array[Vector2D] = new Array[Vector2D](pol.points.length)
+	   var count: Int = 0
+	   for (point <- pol.points) {
+    	  val coordinateCorrection: Vector2D = view.viewToScreenVertex(new Vector2D(point.x, point.y))
+          ccPoints(count) = new Vector2D(coordinateCorrection.x, coordinateCorrection.y)
+          count += 1
+       }
+	   new Polygon2D(ccPoints.toList, pol.polyType)
+	   
    }
 
    def getPolygonFromPolygon2D(pol: Polygon2D): Polygon = {

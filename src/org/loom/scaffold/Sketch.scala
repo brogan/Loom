@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage
 import java.awt._
 import java.awt.geom._
 
+import org.loom.scene._
 import org.loom.utility._
-import org.loom.scene.Renderer
 
 class Sketch(val width: Int, val height: Int) {
 

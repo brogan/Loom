@@ -23,15 +23,11 @@ import org.loom.utility._
 
 /**
 Description of sketch goes here.
-This sketch displays a flickering, semi-transparent scull
-image over the top of a spinning and morphing ground plane.  The latter is displaced by a height map image.
-The rendering mode of the height plane can be driven by either an array of photo-resistor values (stored in
-serialByteReadings) or by RFID codes (see code currently commented out in serialEventNotify() method).
 */
 class MySketch(width: Int, height: Int) extends Sketch (width, height) {
 
 //////////////////////////////////////////////
-   val imName: String = "scull_smallc.png"
+   val imName: String = "mountain.jpg"
 //////////////////////////////////////////////
    //next lines make scull image semi-transparent
    //the totally black pixels are set to fully transparent so that we just see scull
@@ -56,7 +52,7 @@ class MySketch(width: Int, height: Int) extends Sketch (width, height) {
    val hMap: ImageToHeightMap = new ImageToHeightMap(buff, 33,33, 10)
 
    //create a renderer
-   val rendererGround = new Renderer(Renderer.FILLED_STROKED, .5f, new Color(255,255,0,30), new Color(120,10,3,18))
+   renderer = new Renderer(Renderer.FILLED_STROKED, .5f, new Color(255,255,0,30), new Color(120,10,3,18))
   
    val gridPlane: Shape3D = ShapeCreator.makeGridPlane(32,32)
 
@@ -82,15 +78,15 @@ class MySketch(width: Int, height: Int) extends Sketch (width, height) {
    val animator2: Animator3D = new Animator3D(true, scaleFactor2, rotFactor2, speedFactor2)
 
    //create a sprite from the shape, initial parameters, animator and renderer
-   val groundPlane: Sprite3D = new Sprite3D(gridPlane,loc2,size2,startRotation2,rotOffset2,animator2,rendererGround) 
+   val groundPlane: Sprite3D = new Sprite3D(gridPlane,loc2,size2,startRotation2,rotOffset2,animator2,renderer) 
 
    //create a notional view
    //parameters: screen width, screen height, view width, view height, border width, border height
-   val view3D: View3D = new View3D(width, height, width, height, 0, 0)
+   val view: View = new View(width, height, width, height, 0, 0)
    //create a scene
-   val scene: Scene3D = new Scene3D()
+   val scene: Scene = new Scene()
    //set properties in Camera object: view3D, viewAngle and scene3D
-   Camera.view3D = view3D
+   Camera.view = view
    Camera.viewAngle = 75
    Camera.scene = scene
 

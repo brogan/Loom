@@ -511,6 +511,29 @@ possible to check whether the contents of the list are of the requested typed.
             
           </div>
           
+    </li><li visbl="pub" data-isabs="false" name="org.loom.geometry.ShapeCreator#makeGridBlock">
+      <a id="makeGridBlock(Int,Int,Int):Shape3D"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol">
+        <span class="name">makeGridBlock</span>
+        
+        <span class="params">(<span name="rows">rows: <span class="extype" name="scala.Int">Int</span></span>, <span name="cols">cols: <span class="extype" name="scala.Int">Int</span></span>, <span name="layers">layers: <span class="extype" name="scala.Int">Int</span></span>)</span>
+        <span class="result">: <a href="Shape3D.html" class="extype" name="org.loom.geometry.Shape3D">Shape3D</a></span>
+      </span>
+      </h4>
+      
+            <p class="shortcomment cmt">   Makes a grid block centred on 0, 0 with specified number of rows, columns and layers.</p>
+            <div class="fullcomment"><div class="comment cmt"><p>   Makes a grid block centred on 0, 0 with specified number of rows, columns and layers.
+   Note: if using within the context of a deforming the grid plane with a height map,
+   the height map needs to have one more row and column than the grid plane, because
+   the height map counts points (a row of four columns requires 5 points, etc.)</p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"></dd><dt class="param">cols</dt><dd class="cmt"></dd><dt class="param">layers</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>Shape3D
+</p></dd></dl>
+            
+            
+            
+          </div>
+          
     </li><li visbl="pub" data-isabs="false" name="org.loom.geometry.ShapeCreator#makeGridPlane">
       <a id="makeGridPlane(Int,Int):Shape3D"></a>
       <h4 class="signature">

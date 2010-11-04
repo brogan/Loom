@@ -123,10 +123,11 @@ class InteractionManager(val drawManager: DrawManager) extends JPanel {
          }
    }
    /**
-   * toggles pause animation
+   * switches rendering mode
    */
    def switchRenderingMode(mode: Int): Unit = {
      drawManager.sketch.renderer.mode = mode
+     println("switching rendering mode: " + mode)
    }
    /**
    * toggles pause animation

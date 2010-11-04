@@ -1,0 +1,12 @@
+<sketch>
+  <name>TwoButtons</name>
+  <width>1200</width>
+  <height>800</height>
+  <animating>true</animating>
+  <fullscreen>false</fullscreen>
+  <borderColor>0,0,0</borderColor>
+  <serial>true</serial>
+  <port>/dev/ttyUSB0</port>
+  <mode>char</mode>
+  <quantity>1</quantity>
+</sketch>

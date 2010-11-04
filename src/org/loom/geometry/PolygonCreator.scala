@@ -51,7 +51,7 @@ object PolygonCreator {
          points(i) = Transform2D.rotate(points(i-1), angInc)
          //println("point " + i + ": " + points(i))
       }
-      new Polygon2D(points.toList)
+      new Polygon2D(points.toList, PolygonType.Line_Polygon)
 
    }
    /**
@@ -93,7 +93,7 @@ object PolygonCreator {
          }
       }
 
-      new Polygon2D(combined.toList)
+      new Polygon2D(combined.toList, PolygonType.Line_Polygon)
 
    }
    /**
@@ -124,7 +124,7 @@ object PolygonCreator {
          a(count) = new Vector2D(point.x, point.y)
          count += 1
       }
-      new Polygon2D(a.toList)
+      new Polygon2D(a.toList, pol.polyType)
    }
   
 

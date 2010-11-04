@@ -29,17 +29,17 @@ object ShapeCreator {
       val polys: Array[Polygon3D] = new Array[Polygon3D](numHoriz*2)
       for(i <- 0 until numHoriz) {
          if (i < numHoriz-1) {
-            polys(i) = new Polygon3D(List(vertMiddlePoints(i), backPoint, vertMiddlePoints(i+1)))
+            polys(i) = new Polygon3D(List(vertMiddlePoints(i), backPoint, vertMiddlePoints(i+1)), PolygonType.Line_Polygon)
          } else {
-            polys(i) = new Polygon3D(List(vertMiddlePoints(i), backPoint, vertMiddlePoints(0)))
+            polys(i) = new Polygon3D(List(vertMiddlePoints(i), backPoint, vertMiddlePoints(0)), PolygonType.Line_Polygon)
          }
       }
       var count: Int = 0
       for(i <- numHoriz until numHoriz*2) {
          if (i < (numHoriz*2)-1) {
-            polys(i) = new Polygon3D(List(vertMiddlePoints(count), frontPoint, vertMiddlePoints(count+1)))
+            polys(i) = new Polygon3D(List(vertMiddlePoints(count), frontPoint, vertMiddlePoints(count+1)), PolygonType.Line_Polygon)
          } else {
-            polys(i) = new Polygon3D(List(vertMiddlePoints(count), frontPoint, vertMiddlePoints(0)))
+            polys(i) = new Polygon3D(List(vertMiddlePoints(count), frontPoint, vertMiddlePoints(0)), PolygonType.Line_Polygon)
          }
          count+=1
       }
@@ -76,13 +76,13 @@ object ShapeCreator {
       val polys: Array[Polygon3D] = new Array[Polygon3D](numHoriz+2)
       for(i <- 0 until numHoriz) {
          if (i < numHoriz-1) {
-            polys(i) = new Polygon3D(List(vertBackPoints(i), vertFrontPoints(i), vertFrontPoints(i+1), vertBackPoints(i+1)))
+            polys(i) = new Polygon3D(List(vertBackPoints(i), vertFrontPoints(i), vertFrontPoints(i+1), vertBackPoints(i+1)), PolygonType.Line_Polygon)
          } else {
-            polys(i) = new Polygon3D(List(vertBackPoints(i), vertFrontPoints(i), vertFrontPoints(0), vertBackPoints(0)))
+            polys(i) = new Polygon3D(List(vertBackPoints(i), vertFrontPoints(i), vertFrontPoints(0), vertBackPoints(0)), PolygonType.Line_Polygon)
          }
       }
-      polys(polys.length-2) = new Polygon3D(vertBackPoints.toList)
-      polys(polys.length-1) = new Polygon3D(vertFrontPoints.toList)
+      polys(polys.length-2) = new Polygon3D(vertBackPoints.toList, PolygonType.Line_Polygon)
+      polys(polys.length-1) = new Polygon3D(vertFrontPoints.toList, PolygonType.Line_Polygon)
 
       //get the shape points in a single array
       val points: Array[Vector3D] = new Array[Vector3D](numHoriz * 2)
@@ -109,13 +109,13 @@ object ShapeCreator {
       val polys: Array[Polygon3D] = new Array[Polygon3D](numHoriz+2)
       for (i <- 0 until numHoriz) {
          if (i < numHoriz-1) {
-            polys(i) = new Polygon3D(List(backPoints(i), frontPoints(i), frontPoints(i+1), backPoints(i+1)))
+            polys(i) = new Polygon3D(List(backPoints(i), frontPoints(i), frontPoints(i+1), backPoints(i+1)), PolygonType.Line_Polygon)
          } else {
-            polys(i) = new Polygon3D(List(backPoints(i), frontPoints(i), frontPoints(0), backPoints(0)))
+            polys(i) = new Polygon3D(List(backPoints(i), frontPoints(i), frontPoints(0), backPoints(0)), PolygonType.Line_Polygon)
          }
       }
-      polys(numHoriz) = new Polygon3D(backPoints.toList)
-      polys(numHoriz+1) = new Polygon3D(frontPoints.toList)
+      polys(numHoriz) = new Polygon3D(backPoints.toList, PolygonType.Line_Polygon)
+      polys(numHoriz+1) = new Polygon3D(frontPoints.toList, PolygonType.Line_Polygon)
 
       //get the shape points in a single array
       val points: Array[Vector3D] = new Array[Vector3D](numHoriz * 2)
@@ -161,9 +161,9 @@ object ShapeCreator {
             val curr: Int = (i * numPoints) + j
             println("curr: " + curr + "  i: " + i + "  j: " + j)
             if (j < numPoints-1) {
-               polys(curr) = new Polygon3D(List(allPoints(i)(j), allPoints(i + 1)(j), allPoints(i + 1)(j + 1), allPoints(i)(j + 1)))
+               polys(curr) = new Polygon3D(List(allPoints(i)(j), allPoints(i + 1)(j), allPoints(i + 1)(j + 1), allPoints(i)(j + 1)), PolygonType.Line_Polygon)
             } else {
-               polys(curr) = new Polygon3D(List(allPoints(i)(j), allPoints(i+1)(j), allPoints(i+1)(0), allPoints(i)(0)))
+               polys(curr) = new Polygon3D(List(allPoints(i)(j), allPoints(i+1)(j), allPoints(i+1)(0), allPoints(i)(0)), PolygonType.Line_Polygon)
             }
          }
       }
@@ -196,8 +196,8 @@ object ShapeCreator {
          frontPoints(counter) = aP(i)
          counter += 1
       }
-      polys(numPoints * (allPoints.length-1)) = new Polygon3D(backPoints.toList)
-      polys((numPoints * (allPoints.length-1)) + 1) = new Polygon3D(frontPoints.toList)
+      polys(numPoints * (allPoints.length-1)) = new Polygon3D(backPoints.toList, PolygonType.Line_Polygon)
+      polys((numPoints * (allPoints.length-1)) + 1) = new Polygon3D(frontPoints.toList, PolygonType.Line_Polygon)
       for (poly <- polys) {
          println(poly)
       }
@@ -236,7 +236,7 @@ object ShapeCreator {
             val topRight: Vector3D = points((r*(rows+1)) +c+1)
             val bottomRight: Vector3D = points(((r+1)*(rows+1))+c+1)
             val bottomLeft: Vector3D = points(((r+1)*(rows+1))+c)
-            polys((r*rows)+c) = new Polygon3D(List(topLeft, topRight, bottomRight, bottomLeft))
+            polys((r*rows)+c) = new Polygon3D(List(topLeft, topRight, bottomRight, bottomLeft), PolygonType.Line_Polygon)
          }
       }
       new Shape3D(points.toList, polys.toList)
@@ -287,12 +287,12 @@ object ShapeCreator {
                val bottomRightBack: Vector3D = points(currIndex + (rows+1) + 1 + ((rows+1) * (cols+1)))
                val bottomLeftBack: Vector3D = points(currIndex + (rows+1) + ((rows+1) * (cols+1)))
 
-               polys(currPolyIndex) = new Polygon3D(List(topLeft, topRight, bottomRight, bottomLeft))
-               polys(currPolyIndex+1) = new Polygon3D(List(topLeft, topLeftBack, topRightBack, topRight))
-               polys(currPolyIndex+2) = new Polygon3D(List(topRight, topRightBack, bottomRightBack, bottomRight))
-               polys(currPolyIndex+3) = new Polygon3D(List(bottomLeft, bottomLeftBack, bottomRightBack, bottomRight))
-               polys(currPolyIndex+4) = new Polygon3D(List(topLeft, topLeftBack, bottomLeftBack, bottomLeft))
-               polys(currPolyIndex+5) = new Polygon3D(List(topLeftBack, topRightBack, bottomRightBack, bottomLeftBack))
+               polys(currPolyIndex) = new Polygon3D(List(topLeft, topRight, bottomRight, bottomLeft), PolygonType.Line_Polygon)
+               polys(currPolyIndex+1) = new Polygon3D(List(topLeft, topLeftBack, topRightBack, topRight), PolygonType.Line_Polygon)
+               polys(currPolyIndex+2) = new Polygon3D(List(topRight, topRightBack, bottomRightBack, bottomRight), PolygonType.Line_Polygon)
+               polys(currPolyIndex+3) = new Polygon3D(List(bottomLeft, bottomLeftBack, bottomRightBack, bottomRight), PolygonType.Line_Polygon)
+               polys(currPolyIndex+4) = new Polygon3D(List(topLeft, topLeftBack, bottomLeftBack, bottomLeft), PolygonType.Line_Polygon)
+               polys(currPolyIndex+5) = new Polygon3D(List(topLeftBack, topRightBack, bottomRightBack, bottomLeftBack), PolygonType.Line_Polygon)
                currPolyIndex = currPolyIndex + 6
                //println("curr poly index: " + currPolyIndex)
             }

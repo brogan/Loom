@@ -19,6 +19,7 @@ class ImageSequence (val totImages: Int, var frameInc: Int, var currFrame: Int, 
 
    var currentImage: Image = null
    var currentBufferedImage: BufferedImage = null 
+   var sequenceFinished = false
    /**
    Update - gets the next image in the sequence, returns back to 0 when the sequence finishes (so loops)
    */
@@ -44,6 +45,8 @@ class ImageSequence (val totImages: Int, var frameInc: Int, var currFrame: Int, 
       } else {
          if (looping) {
             currFrame = 0
+         } else {
+        	 sequenceFinished = true
          }
       }
    }
@@ -53,6 +56,6 @@ class ImageSequence (val totImages: Int, var frameInc: Int, var currFrame: Int, 
    */
    def draw(g2D: Graphics2D): Unit = {
       //g2D.drawImage(currentImage, null, (location.x).toInt, (location.y).toInt)
-      g2D.drawImage(currentImage.getScaledInstance(1246, 796, Image.SCALE_FAST), location.x.toInt, location.y.toInt, null)
+      g2D.drawImage(currentImage.getScaledInstance((scale.x).toInt, (scale.y).toInt, Image.SCALE_FAST), location.x.toInt, location.y.toInt, null)
    }
 }

@@ -11,9 +11,9 @@ import org.loom.utility._
 
 object Camera {
 
-   var view3D: View3D = new View3D(720,720,720,720,0,0)//default, set properly in MySketch
+   var view: View = new View(720,720,720,720,0,0)//default, set properly in MySketch
    var viewAngle: Double = 75//set from MySketch
-   var scene: Scene3D = null//set from MySketch
+   var scene: Scene = null//set from MySketch
 
    var translateSpeed: Double = 100
    var rotateSpeed: Double = .3
@@ -67,7 +67,7 @@ object Camera {
 
    def setViewDistance(): Unit = {
       var angleRadians: Double = Formulas.degreesToRadians(viewAngle)
-      viewDistance = (view3D.viewWidth/2)/math.tan(angleRadians/2)
+      viewDistance = (view.viewWidth/2)/math.tan(angleRadians/2)
    }
 
 }

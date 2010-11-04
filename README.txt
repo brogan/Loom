@@ -16,3 +16,4 @@ build_class.sh: convenience - compile just one class - need to adjust sh file to
 build_java.sh: creates jar file for the sketch
 run.sh: runs the sketch
 run_java.sh: runs the sketch jar file (if created)
+run_java_mac.sh: runs the sketch jar file (if created) on OSX 64bit machines (see Loom.pdf in tutorials)

@@ -30,11 +30,7 @@
         <span class="result"> extends <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a></span>
       </span>
       </h4>
-      <div class="fullcomment" id="comment"><div class="comment cmt"><p>Description of sketch goes here.
-This sketch displays a flickering, semi-transparent scull
-image over the top of a spinning and morphing ground plane.  The latter is displaced by a height map image.
-The rendering mode of the height plane can be driven by either an array of photo-resistor values (stored in
-serialByteReadings) or by RFID codes (see code currently commented out in serialEventNotify() method).</p></div><div class="block">
+      <div class="fullcomment" id="comment"><div class="comment cmt"><p>Description of sketch goes here.</p></div><div class="block">
             linear super types: <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a>, AnyRef, <span class="extype" name="scala.Any">Any</span>
           </div>
             
@@ -604,23 +600,6 @@ scala.Int
             
           </div>
           
-    </li><li visbl="pub" data-isabs="false" name="org.loom.scaffold.Sketch#fillColor">
-      <a id="fillColor:Color"></a>
-      <h4 class="signature">
-      <span class="kind">var</span>
-      <span class="symbol">
-        <span class="name">fillColor</span>
-        
-        
-        <span class="result">: <span class="extype" name="java.awt.Color">Color</span></span>
-      </span>
-      </h4>
-      
-            
-            <div class="fullcomment"><div class="block">
-          definition classes: <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a>
-        </div></div>
-          
     </li><li visbl="prt" data-isabs="false" name="scala.AnyRef#finalize">
       <a id="finalize():Unit"></a>
       <h4 class="signature">
@@ -1015,18 +994,23 @@ possible to check whether the contents of the list are of the requested typed.
       </span>
       </h4>
       
-    </li><li visbl="pub" data-isabs="false" name="org.loom.mysketch.MySketch#rendererGround">
-      <a id="rendererGround:Renderer"></a>
+    </li><li visbl="pub" data-isabs="false" name="org.loom.scaffold.Sketch#renderer">
+      <a id="renderer:Renderer"></a>
       <h4 class="signature">
-      <span class="kind">val</span>
+      <span class="kind">var</span>
       <span class="symbol">
-        <span class="name">rendererGround</span>
+        <span class="name">renderer</span>
         
         
         <span class="result">: <a href="../scene/Renderer.html" class="extype" name="org.loom.scene.Renderer">Renderer</a></span>
       </span>
       </h4>
       
+            
+            <div class="fullcomment"><div class="block">
+          definition classes: <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a>
+        </div></div>
+          
     </li><li visbl="pub" data-isabs="false" name="org.loom.mysketch.MySketch#rotFactor2">
       <a id="rotFactor2:Vector3D"></a>
       <h4 class="signature">
@@ -1064,14 +1048,14 @@ possible to check whether the contents of the list are of the requested typed.
       </h4>
       
     </li><li visbl="pub" data-isabs="false" name="org.loom.mysketch.MySketch#scene">
-      <a id="scene:Scene3D"></a>
+      <a id="scene:Scene"></a>
       <h4 class="signature">
       <span class="kind">val</span>
       <span class="symbol">
         <span class="name">scene</span>
         
         
-        <span class="result">: <a href="../scene/Scene3D.html" class="extype" name="org.loom.scene.Scene3D">Scene3D</a></span>
+        <span class="result">: <a href="../scene/Scene.html" class="extype" name="org.loom.scene.Scene">Scene</a></span>
       </span>
       </h4>
       
@@ -1227,40 +1211,6 @@ possible to check whether the contents of the list are of the requested typed.
       </span>
       </h4>
       
-    </li><li visbl="pub" data-isabs="false" name="org.loom.scaffold.Sketch#strokeColor">
-      <a id="strokeColor:Color"></a>
-      <h4 class="signature">
-      <span class="kind">var</span>
-      <span class="symbol">
-        <span class="name">strokeColor</span>
-        
-        
-        <span class="result">: <span class="extype" name="java.awt.Color">Color</span></span>
-      </span>
-      </h4>
-      
-            
-            <div class="fullcomment"><div class="block">
-          definition classes: <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a>
-        </div></div>
-          
-    </li><li visbl="pub" data-isabs="false" name="org.loom.scaffold.Sketch#strokeWidth">
-      <a id="strokeWidth:Float"></a>
-      <h4 class="signature">
-      <span class="kind">var</span>
-      <span class="symbol">
-        <span class="name">strokeWidth</span>
-        
-        
-        <span class="result">: <span class="extype" name="scala.Float">Float</span></span>
-      </span>
-      </h4>
-      
-            
-            <div class="fullcomment"><div class="block">
-          definition classes: <a href="../scaffold/Sketch.html" class="extype" name="org.loom.scaffold.Sketch">Sketch</a>
-        </div></div>
-          
     </li><li visbl="pub" data-isabs="false" name="scala.AnyRef#synchronized">
       <a id="synchronized[T0](T0):T0"></a>
       <h4 class="signature">
@@ -1326,15 +1276,15 @@ possible to check whether the contents of the list are of the requested typed.
             
           </div>
           
-    </li><li visbl="pub" data-isabs="false" name="org.loom.mysketch.MySketch#view3D">
-      <a id="view3D:View3D"></a>
+    </li><li visbl="pub" data-isabs="false" name="org.loom.mysketch.MySketch#view">
+      <a id="view:View"></a>
       <h4 class="signature">
       <span class="kind">val</span>
       <span class="symbol">
-        <span class="name">view3D</span>
+        <span class="name">view</span>
         
         
-        <span class="result">: <a href="../scene/View3D.html" class="extype" name="org.loom.scene.View3D">View3D</a></span>
+        <span class="result">: <a href="../scene/View.html" class="extype" name="org.loom.scene.View">View</a></span>
       </span>
       </h4>
       

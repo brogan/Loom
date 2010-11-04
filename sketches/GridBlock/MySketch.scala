@@ -36,6 +36,7 @@ class MySketch(width: Int, height: Int) extends Sketch (width, height) {
    //renderer = new Renderer(Renderer.FILLED_STROKED, .2f, new Color(255,255,255,10), new Color(120,10,3,3))
    renderer = new Renderer(Renderer.LINES, .05f, new Color(255,255,255,50), new Color(120,10,3,20))
    //renderer = new Renderer(Renderer.POINTS, .2f, new Color(255,255,255,50), new Color(120,10,3,20))
+
    /**
    var p1: Vector3D = new Vector3D(-1,0,0)
    var p2: Vector3D = new Vector3D(1,0,0)
@@ -82,11 +83,11 @@ class MySketch(width: Int, height: Int) extends Sketch (width, height) {
 
    //create a notional view
    //parameters: screen width, screen height, view width, view height, border width, border height
-   val view3D: View3D = new View3D(width, height, width, height, 0, 0)
+   val view: View = new View(width, height, width, height, 0, 0)
    //create a scene
-   val scene: Scene3D = new Scene3D()
+   val scene: Scene = new Scene()
    //set properties in Camera object: view3D, viewAngle and scene3D
-   Camera.view3D = view3D
+   Camera.view = view
    Camera.viewAngle = 75
    Camera.scene = scene
 
@@ -98,6 +99,7 @@ class MySketch(width: Int, height: Int) extends Sketch (width, height) {
    override def setup(): Unit = {
       backgroundColor = new Color(0,0,0)
       overlayColor = new Color(0,0,0, 15)
+
    }
 
    //some variables linked to the undulating ground plane

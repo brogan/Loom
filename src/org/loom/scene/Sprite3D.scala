@@ -11,7 +11,7 @@ import java.awt.Polygon
 import org.loom.geometry._
 import org.loom.utility._
 
-class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, val startRotation: Vector3D, val rotOffset: Vector3D, var animator: Animator3D, var renderer: Renderer) {
+class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, val startRotation: Vector3D, val rotOffset: Vector3D, var animator: Animator3D, var renderer: Renderer)  extends Drawable {
 
    var pointWidth: Double = 1//default width of point ellipses
    var pointHeight: Double = 1//default height of point ellipses
@@ -34,10 +34,10 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
    */
    def draw(g2D: Graphics2D): Unit = {
       renderer.mode match {
-         case Renderer.POINTS => drawPoints(g2D, Camera.viewDistance, Camera.view3D)
-         case Renderer.LINES => drawLines(g2D, Camera.viewDistance, Camera.view3D)
-         case Renderer.FILLED => drawFilled(g2D, Camera.viewDistance, Camera.view3D)
-         case Renderer.FILLED_STROKED => drawFilledStroked(g2D, Camera.viewDistance, Camera.view3D)
+         case Renderer.POINTS => drawPoints(g2D, Camera.viewDistance, Camera.view)
+         case Renderer.LINES => drawLines(g2D, Camera.viewDistance, Camera.view)
+         case Renderer.FILLED => drawFilled(g2D, Camera.viewDistance, Camera.view)
+         case Renderer.FILLED_STROKED => drawFilledStroked(g2D, Camera.viewDistance, Camera.view)
       }
    }
 
@@ -152,7 +152,7 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
       if (h<=dist) true else false
    }
 
-   def drawPoints(g2D: Graphics2D, viewDistance: Double, view3D: View3D): Unit = {
+   def drawPoints(g2D: Graphics2D, viewDistance: Double, view: View): Unit = {
       g2D.setColor(renderer.strokeColor)
       g2D.setStroke(new BasicStroke(renderer.strokeWidth))
       for (poly <- shape.polys) {
@@ -164,7 +164,7 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
                if (!closerThanNearClipDistance(poly, viewDistance)) {
                   val p: Vector3D = new Vector3D(point.x + location.x, point.y + location.y, point.z + location.z)
                   perspective = Formulas.getPerspective(p, viewDistance)
-                  val coordinateCorrection: Vector3D = view3D.viewToScreenVertex(perspective)
+                  val coordinateCorrection: Vector3D = view.viewToScreenVertex(perspective)
                   poly2D.points(count).x = coordinateCorrection.x
                   poly2D.points(count).y = coordinateCorrection.y
                   g2D.draw(new Ellipse2D.Double(poly2D.points(count).x.toInt, poly2D.points(count).y.toInt, pointWidth,pointHeight))
@@ -177,7 +177,7 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
       }
    }
 
-   def drawLines(g2D: Graphics2D, viewDistance: Double, view3D: View3D): Unit = {
+   def drawLines(g2D: Graphics2D, viewDistance: Double, view: View): Unit = {
       for (poly <- shape.polys) {
          if (!closerThanNearClipDistance(poly, viewDistance)) {
             val poly2D: Polygon2D = PolygonCreator.convertPolygon3DToPolygon2D(poly)
@@ -186,7 +186,7 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
             for (point <- poly.points) {
                val p: Vector3D = new Vector3D(point.x + location.x, point.y + location.y, point.z + location.z)
                perspective = Formulas.getPerspective(p, viewDistance)
-               val coordinateCorrection: Vector3D = view3D.viewToScreenVertex(perspective)
+               val coordinateCorrection: Vector3D = view.viewToScreenVertex(perspective)
                poly2D.points(count).x = coordinateCorrection.x
                poly2D.points(count).y = coordinateCorrection.y
                count += 1
@@ -194,14 +194,32 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
             val drawPoly: Polygon = PolygonCreator.convertPolygon2DToPolygon(poly2D)
             g2D.setColor(renderer.strokeColor)
             g2D.setStroke(new BasicStroke(renderer.strokeWidth))
-            g2D.draw(drawPoly)
+            if (poly.polyType == PolygonType.Line_Polygon) {
+               g2D.draw(drawPoly)
+            } else {
+            	//iterate through each of the spline segments in the spline Polygon3d
+            	//println("poly sides total: " + poly2D.sidesTotal)
+            	for (i <- 0 until poly2D.sidesTotal) {
+		            val curve: CubicCurve2D.Float = new CubicCurve2D.Float(
+		            		poly2D.points(0 + i*4).x.toFloat,
+		            		poly2D.points(0 + i*4).y.toFloat,
+		            		poly2D.points(1 + i*4).x.toFloat,
+    	                    poly2D.points(1 + i*4).y.toFloat,
+    	                    poly2D.points(2 + i*4).x.toFloat,
+    	                    poly2D.points(2 + i*4).y.toFloat,
+    	                    poly2D.points(3 + i*4).x.toFloat,
+    	                    poly2D.points(3 + i*4).y.toFloat
+		            		)
+                    g2D.draw(curve)
+            	}
+            }
          } else {
             //println("poly too close")
          }
       }
    }
 
-   def drawFilled(g2D: Graphics2D, viewDistance: Double, view3D: View3D): Unit = {
+   def drawFilled(g2D: Graphics2D, viewDistance: Double, view: View): Unit = {
       for (poly <- shape.polys) {
          if (!closerThanNearClipDistance(poly, viewDistance)) {
             val poly2D: Polygon2D = PolygonCreator.convertPolygon3DToPolygon2D(poly)
@@ -210,21 +228,38 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
             for (point <- poly.points) {
                val p: Vector3D = new Vector3D(point.x + location.x, point.y + location.y, point.z + location.z)
                perspective = Formulas.getPerspective(p, viewDistance)
-               val coordinateCorrection: Vector3D = view3D.viewToScreenVertex(perspective)
+               val coordinateCorrection: Vector3D = view.viewToScreenVertex(perspective)
                poly2D.points(count).x = coordinateCorrection.x
                poly2D.points(count).y = coordinateCorrection.y
                count += 1
             }
             val drawPoly: Polygon = PolygonCreator.convertPolygon2DToPolygon(poly2D)
             g2D.setColor(renderer.fillColor)
-            g2D.fill(drawPoly)
+            if (poly.polyType == PolygonType.Line_Polygon) {
+               g2D.fill(drawPoly)
+            } else {
+            	//iterate through each of the spline segments in the spline Polygon3d
+            	//println("poly sides total: " + poly2D.sidesTotal)
+            	val path: GeneralPath = new GeneralPath(Path2D.WIND_EVEN_ODD)
+            	path.moveTo(poly2D.points(0).x.toFloat, poly2D.points(0).y.toFloat)
+            	for (i <- 0 until poly2D.sidesTotal) {
+    	            val c1X: Float = poly2D.points(1 + i*4).x.toFloat
+    	            val c1Y: Float = poly2D.points(1 + i*4).y.toFloat
+    	            val c2X: Float = poly2D.points(2 + i*4).x.toFloat
+    	            val c2Y: Float = poly2D.points(2 + i*4).y.toFloat
+    	            val a2X: Float = poly2D.points(3 + i*4).x.toFloat
+    	            val a2Y: Float = poly2D.points(3 + i*4).y.toFloat
+		            path.curveTo(c1X, c1Y, c2X, c2Y, a2X, a2Y);
+            	}
+            	g2D.fill(path)
+            }
          } else {
             //println("poly too close")
          }
       }
    }
 
-   def drawFilledStroked(g2D: Graphics2D, viewDistance: Double, view3D: View3D): Unit = {
+   def drawFilledStroked(g2D: Graphics2D, viewDistance: Double, view: View): Unit = {
       for (poly <- shape.polys) {
          if (!closerThanNearClipDistance(poly, viewDistance)) {
             val poly2D: Polygon2D = PolygonCreator.convertPolygon3DToPolygon2D(poly)
@@ -233,17 +268,39 @@ class Sprite3D(var shape: Shape3D, var location: Vector3D, var size: Vector3D, v
             for (point <- poly.points) {
                val p: Vector3D = new Vector3D(point.x + location.x, point.y + location.y, point.z + location.z)
                perspective = Formulas.getPerspective(p, viewDistance)
-               val coordinateCorrection: Vector3D = view3D.viewToScreenVertex(perspective)
+               val coordinateCorrection: Vector3D = view.viewToScreenVertex(perspective)
                poly2D.points(count).x = coordinateCorrection.x
                poly2D.points(count).y = coordinateCorrection.y
                count += 1
             }
             val drawPoly: Polygon = PolygonCreator.convertPolygon2DToPolygon(poly2D)
-            g2D.setColor(renderer.fillColor)
-            g2D.fill(drawPoly)
-            g2D.setColor(renderer.strokeColor)
-            g2D.setStroke(new BasicStroke(renderer.strokeWidth))
-            g2D.draw(drawPoly)
+
+            if (poly.polyType == PolygonType.Line_Polygon) {
+            	g2D.setColor(renderer.fillColor)
+                g2D.fill(drawPoly)
+                g2D.setColor(renderer.strokeColor)
+                g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+                g2D.draw(drawPoly)
+            } else {
+            	//iterate through each of the spline segments in the spline Polygon3d
+            	//println("poly sides total: " + poly2D.sidesTotal)
+            	val path: GeneralPath = new GeneralPath(Path2D.WIND_EVEN_ODD)
+            	path.moveTo(poly2D.points(0).x.toFloat, poly2D.points(0).y.toFloat)
+            	for (i <- 0 until poly2D.sidesTotal) {
+    	            val c1X: Float = poly2D.points(1 + i*4).x.toFloat
+    	            val c1Y: Float = poly2D.points(1 + i*4).y.toFloat
+    	            val c2X: Float = poly2D.points(2 + i*4).x.toFloat
+    	            val c2Y: Float = poly2D.points(2 + i*4).y.toFloat
+    	            val a2X: Float = poly2D.points(3 + i*4).x.toFloat
+    	            val a2Y: Float = poly2D.points(3 + i*4).y.toFloat
+		            path.curveTo(c1X, c1Y, c2X, c2Y, a2X, a2Y);
+            	}
+                g2D.setColor(renderer.fillColor)
+                g2D.fill(path)
+                g2D.setColor(renderer.strokeColor)
+                g2D.setStroke(new BasicStroke(renderer.strokeWidth))
+                g2D.draw(path)
+            }
          } else {
             //println("poly too close")
          }

@@ -7,6 +7,6 @@
   <borderColor>0,0,0</borderColor>
   <serial>true</serial>
   <port>/dev/ttyUSB0</port>
-  <mode>ascii</mode>
+  <mode>rfid</mode>
   <quantity>44</quantity>
 </sketch>

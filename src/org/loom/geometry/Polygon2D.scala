@@ -6,9 +6,16 @@ around its center much easier.
 
 package org.loom.geometry
 
-class Polygon2D(val points: List[Vector2D]) {
+import org.loom.utility.Formulas
 
-   val sidesTotal: Int = points.length
+class Polygon2D(val points: List[Vector2D], val polyType: Int) {
+
+   var sidesTotal: Int = 0
+   if(polyType == PolygonType.Line_Polygon) {
+       sidesTotal = points.length
+   } else if (polyType == PolygonType.Spline_Polygon) {
+       sidesTotal = points.length/4
+   }
    override def toString(): String = "Polygon2D sidesTotal: " + sidesTotal
    def print(): Unit = { println("\n" + this.toString()); for (point <- points) println(point) }
 
@@ -41,7 +48,24 @@ class Polygon2D(val points: List[Vector2D]) {
       val copy: Array[Vector2D] = new Array[Vector2D](sidesTotal)
       var i: Int = 0
       for (point <- points) { copy(i) = point.clone(); i += 1 }
-      new Polygon2D(copy.toList)
+      new Polygon2D(copy.toList, polyType)
+   }
+   /**
+    * Return a subdivision surface version of this polygon
+    */
+   def subdivide():List[Polygon2D] = {
+	   val middle: Vector2D = Formulas.average(points)
+	   val newPoints: Array[Vector2D] = new Array[Vector2D]((points.length * 2) + 1)
+	   newPoints(points.length * 2) = middle
+	   val newPolys: Array[Polygon2D] = new Array[Polygon2D](points.length)
+	   for (i <- 0 until 2 * points.length) {
+	  	   if (i % 2 == 0) {
+	  	  	   newPoints(i) = points(i/2).clone
+	  	   } else {
+	  	  	   newPoints(i) = Formulas.average(List(points(i/2), points((i/2)+1)))
+	  	   }
+	   }
+	   newPolys.toList
    }
 
 }

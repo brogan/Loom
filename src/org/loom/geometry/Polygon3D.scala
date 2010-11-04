@@ -5,9 +5,15 @@ It stores a list of references to relevant points in a Shape3D
 
 package org.loom.geometry
 
-class Polygon3D(val points: List[Vector3D]) {
-
-   val sidesTotal: Int = points.length
+class Polygon3D(val points: List[Vector3D], val polyType: Int) {
+   
+   var sidesTotal: Int = 0
+   if(polyType == PolygonType.Line_Polygon) {
+       sidesTotal = points.length
+   } else if (polyType == PolygonType.Spline_Polygon) {
+       sidesTotal = points.length/4
+   }
+   println("sides total: " + sidesTotal)
    override def toString(): String = "Polygon3D sidesTotal: " + sidesTotal
    def print(): Unit = { println("\n" + this.toString()); for (point <- points) println(point) }
    /**
@@ -73,7 +79,7 @@ class Polygon3D(val points: List[Vector3D]) {
       val copy: Array[Vector3D] = new Array[Vector3D](sidesTotal)
       var i: Int = 0
       for (point <- points) { copy(i) = point; i += 1 }
-      new Polygon3D(copy.toList)
+      new Polygon3D(copy.toList, polyType)
    }
    /**
    This creates a deep clone of the polygon, so that the polygon refers
@@ -85,8 +91,10 @@ class Polygon3D(val points: List[Vector3D]) {
    def clone(newPoints: Array[Vector3D], vertexOrder: Array[Int]): Polygon3D = {
       val copyPoly: Array[Vector3D] = new Array[Vector3D](sidesTotal)
       for (i <- 0 until points.size) copyPoly(i) = newPoints(vertexOrder(i))
-      new Polygon3D(copyPoly.toList)
+      new Polygon3D(copyPoly.toList, polyType)
    }
 
 }
+
+
 

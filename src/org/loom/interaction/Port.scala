@@ -55,7 +55,8 @@ class Port(val interactionManager: InteractionManager) {
        input.read(chunkArray, 0, available)
        Config.mode match {
           case "bytes" => processBytes(chunkArray)
-          case "ascii" => processASCII(chunkArray)
+          case "rfid" => processRFID(chunkArray)
+          case "char" => processChar(chunkArray)
        }
 
     }
@@ -84,10 +85,21 @@ class Port(val interactionManager: InteractionManager) {
        }
     }
     /**
+    processASCII - for processing button
+    captures an button code string and passes to interaction manager
+    */
+    def processChar(chunkArray: Array[Byte]): Unit = {
+       var charInt: Int = 0
+       charInt = chunkArray(0).asInstanceOf[Int]
+       val c: Char = charInt.asInstanceOf[Char]
+       val s: String = c.toString()
+       interactionManager.passToSprite(s)
+    }
+    /**
     processASCII - for processing RFID
     captures an RFID code string and passes to interaction manager
     */
-    def processASCII(chunkArray: Array[Byte]): Unit = {
+    def processRFID(chunkArray: Array[Byte]): Unit = {
        var charInt: Int = 0
        for (i <- 0 until chunkArray.length) {
           charInt = chunkArray(i).asInstanceOf[Int]

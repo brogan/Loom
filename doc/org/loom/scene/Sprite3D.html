@@ -27,11 +27,11 @@
         <span class="name">Sprite3D</span>
         
         
-        <span class="result"> extends AnyRef</span>
+        <span class="result"> extends <a href="Drawable.html" class="extype" name="org.loom.scene.Drawable">Drawable</a></span>
       </span>
       </h4>
       <div class="fullcomment" id="comment"><div class="block">
-            linear super types: AnyRef, <span class="extype" name="scala.Any">Any</span>
+            linear super types: <a href="Drawable.html" class="extype" name="org.loom.scene.Drawable">Drawable</a>, AnyRef, <span class="extype" name="scala.Any">Any</span>
           </div></div>
 
       <div id="template">
@@ -45,7 +45,7 @@
           <div id="ancestors">
                 <span class="filtertype">Inherited</span>
                 <ol><li class="hideall">Hide All</li><li class="showall">Show all</li></ol>
-                <ol id="linearization"><li class="in" name="org.loom.scene.Sprite3D">Sprite3D</li><li class="in" name="scala.AnyRef">AnyRef</li><li class="in" name="scala.Any">Any</li></ol>
+                <ol id="linearization"><li class="in" name="org.loom.scene.Sprite3D">Sprite3D</li><li class="in" name="org.loom.scene.Drawable">Drawable</li><li class="in" name="scala.AnyRef">AnyRef</li><li class="in" name="scala.Any">Any</li></ol>
               </div>
           <div id="visbl">
               <span class="filtertype">Visibility</span>
@@ -332,56 +332,58 @@ part of compilation it is not possible to check whether the contents of the list
             <p class="shortcomment cmt">   Draw, draws a sprite
    Handles all sprite draw calls and passes them to specialised rendering methods depending on the rendering mode.</p>
             <div class="fullcomment"><div class="comment cmt"><p>   Draw, draws a sprite
-   Handles all sprite draw calls and passes them to specialised rendering methods depending on the rendering mode.</p></div><dl class="paramcmts block"><dt class="param">g2D</dt><dd class="cmt"><p>the Graphics2D context</p></dd></dl>
+   Handles all sprite draw calls and passes them to specialised rendering methods depending on the rendering mode.</p></div><dl class="paramcmts block"><dt class="param">g2D</dt><dd class="cmt"><p>the Graphics2D context</p></dd></dl><div class="block">
+          definition classes: <a href="" class="extype" name="org.loom.scene.Sprite3D">Sprite3D</a> → <a href="Drawable.html" class="extype" name="org.loom.scene.Drawable">Drawable</a>
+        </div>
             
             
             
           </div>
           
     </li><li visbl="pub" data-isabs="false" name="org.loom.scene.Sprite3D#drawFilled">
-      <a id="drawFilled(Graphics2D,Double,View3D):Unit"></a>
+      <a id="drawFilled(Graphics2D,Double,View):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol">
         <span class="name">drawFilled</span>
         
-        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view3D">view3D: <a href="View3D.html" class="extype" name="org.loom.scene.View3D">View3D</a></span>)</span>
+        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view">view: <a href="View.html" class="extype" name="org.loom.scene.View">View</a></span>)</span>
         <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li visbl="pub" data-isabs="false" name="org.loom.scene.Sprite3D#drawFilledStroked">
-      <a id="drawFilledStroked(Graphics2D,Double,View3D):Unit"></a>
+      <a id="drawFilledStroked(Graphics2D,Double,View):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol">
         <span class="name">drawFilledStroked</span>
         
-        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view3D">view3D: <a href="View3D.html" class="extype" name="org.loom.scene.View3D">View3D</a></span>)</span>
+        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view">view: <a href="View.html" class="extype" name="org.loom.scene.View">View</a></span>)</span>
         <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li visbl="pub" data-isabs="false" name="org.loom.scene.Sprite3D#drawLines">
-      <a id="drawLines(Graphics2D,Double,View3D):Unit"></a>
+      <a id="drawLines(Graphics2D,Double,View):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol">
         <span class="name">drawLines</span>
         
-        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view3D">view3D: <a href="View3D.html" class="extype" name="org.loom.scene.View3D">View3D</a></span>)</span>
+        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view">view: <a href="View.html" class="extype" name="org.loom.scene.View">View</a></span>)</span>
         <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li visbl="pub" data-isabs="false" name="org.loom.scene.Sprite3D#drawPoints">
-      <a id="drawPoints(Graphics2D,Double,View3D):Unit"></a>
+      <a id="drawPoints(Graphics2D,Double,View):Unit"></a>
       <h4 class="signature">
       <span class="kind">def</span>
       <span class="symbol">
         <span class="name">drawPoints</span>
         
-        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view3D">view3D: <a href="View3D.html" class="extype" name="org.loom.scene.View3D">View3D</a></span>)</span>
+        <span class="params">(<span name="g2D">g2D: <span class="extype" name="java.awt.Graphics2D">Graphics2D</span></span>, <span name="viewDistance">viewDistance: <span class="extype" name="scala.Double">Double</span></span>, <span name="view">view: <a href="View.html" class="extype" name="org.loom.scene.View">View</a></span>)</span>
         <span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
@@ -957,7 +959,9 @@ possible to check whether the contents of the list are of the requested typed.
       
             <p class="shortcomment cmt">   Update - calls Animator.</p>
             <div class="fullcomment"><div class="comment cmt"><p>   Update - calls Animator.update
-</p></div>
+</p></div><div class="block">
+          definition classes: <a href="" class="extype" name="org.loom.scene.Sprite3D">Sprite3D</a> → <a href="Drawable.html" class="extype" name="org.loom.scene.Drawable">Drawable</a>
+        </div>
             
             
             
@@ -1023,7 +1027,9 @@ possible to check whether the contents of the list are of the requested typed.
     </li></ol>
             </div>
 
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="org.loom.scene.Drawable">
+              <h3>Inherited from <a href="Drawable.html" class="extype" name="org.loom.scene.Drawable">Drawable</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from AnyRef</h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

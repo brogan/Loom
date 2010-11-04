@@ -160,7 +160,35 @@ object Formulas {
          count += 1
       }
       index
-   } 
+   }
+   /**
+    * Gets average of a list of Vector2D values
+    */
+   def average(points: List[Vector2D]): Vector2D = {
+	   val p: Vector2D = new Vector2D(0,0)
+	   for (point <- points) {
+	  	   p.x += point.x
+	  	   p.y += point.y
+	   }
+	   p.x = p.x/points.length
+	   p.y = p.y/points.length
+	   p
+   }
+      /**
+    * Gets average of a list of Vector3D values
+    */
+   def average(points: List[Vector3D]): Vector3D = {
+	   val p: Vector3D = new Vector3D(0,0,0)
+	   for (point <- points) {
+	  	   p.x += point.x
+	  	   p.y += point.y
+	  	   p.z += point.z
+	   }
+	   p.x = p.x/points.length
+	   p.y = p.y/points.length
+	   p.z = p.z/points.length
+	   p
+   }
 
 }
 
